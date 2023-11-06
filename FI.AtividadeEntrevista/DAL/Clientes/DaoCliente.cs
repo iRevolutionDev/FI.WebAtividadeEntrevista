@@ -54,13 +54,17 @@ namespace FI.AtividadeEntrevista.DAL
             return cli.FirstOrDefault();
         }
 
+        /// <summary>
+        ///     Verifica se o CPF já está cadastrado
+        /// </summary>
         internal bool VerificarExistencia(string CPF)
         {
-            var parametros = new List<SqlParameter>();
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("CPF", CpfConverter.ToLong(CPF))
+            };
 
-            parametros.Add(new SqlParameter("CPF", CPF));
-
-            var ds = base.Consultar("FI_SP_VerificaCliente", parametros);
+            var ds = base.Consultar("FI_SP_VerifyExistence", parametros);
 
             return ds.Tables[0].Rows.Count > 0;
         }

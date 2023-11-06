@@ -1,81 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using FI.AtividadeEntrevista.DAL;
+using FI.AtividadeEntrevista.DML;
 
 namespace FI.AtividadeEntrevista.BLL
 {
     public class BoCliente
     {
         /// <summary>
-        /// Inclui um novo cliente
+        ///     Inclui um novo cliente
         /// </summary>
         /// <param name="cliente">Objeto de cliente</param>
-        public long Incluir(DML.Cliente cliente)
+        public long Incluir(Cliente cliente)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            var cli = new DaoCliente();
             return cli.Incluir(cliente);
         }
 
         /// <summary>
-        /// Altera um cliente
+        ///     Altera um cliente
         /// </summary>
         /// <param name="cliente">Objeto de cliente</param>
-        public void Alterar(DML.Cliente cliente)
+        public void Alterar(Cliente cliente)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            var cli = new DaoCliente();
             cli.Alterar(cliente);
         }
 
         /// <summary>
-        /// Consulta o cliente pelo id
+        ///     Consulta o cliente pelo id
         /// </summary>
         /// <param name="id">id do cliente</param>
         /// <returns></returns>
-        public DML.Cliente Consultar(long id)
+        public Cliente Consultar(long id)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            var cli = new DaoCliente();
             return cli.Consultar(id);
         }
 
         /// <summary>
-        /// Excluir o cliente pelo id
+        ///     Excluir o cliente pelo id
         /// </summary>
         /// <param name="id">id do cliente</param>
         /// <returns></returns>
         public void Excluir(long id)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            var cli = new DaoCliente();
             cli.Excluir(id);
         }
 
         /// <summary>
-        /// Lista os clientes
+        ///     Lista os clientes
         /// </summary>
-        public List<DML.Cliente> Listar()
+        public List<Cliente> Listar()
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            var cli = new DaoCliente();
             return cli.Listar();
         }
 
         /// <summary>
-        /// Lista os clientes
+        ///     Lista os clientes
         /// </summary>
-        public List<DML.Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
+        public List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Pesquisa(iniciarEm,  quantidade, campoOrdenacao, crescente, out qtd);
+            var cli = new DaoCliente();
+            return cli.Pesquisa(iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
         }
 
         /// <summary>
-        /// VerificaExistencia
+        ///     VerificaExistencia
         /// </summary>
         /// <param name="CPF"></param>
         /// <returns></returns>
         public bool VerificarExistencia(string CPF)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
+            var cli = new DaoCliente();
             return cli.VerificarExistencia(CPF);
         }
     }
