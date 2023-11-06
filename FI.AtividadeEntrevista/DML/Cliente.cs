@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FI.AtividadeEntrevista.DML
+﻿namespace FI.AtividadeEntrevista.DML
 {
     /// <summary>
     /// Classe de cliente que representa o registo na tabela Cliente do Banco de Dados
@@ -30,6 +24,11 @@ namespace FI.AtividadeEntrevista.DML
         /// E-mail
         /// </summary>
         public string Email { get; set; }
+        
+        /// <summary>
+        /// CPF
+        /// </summary>
+        public long CPF { get; set; }
 
         /// <summary>
         /// Estado

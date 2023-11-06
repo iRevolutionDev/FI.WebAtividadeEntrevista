@@ -1,8 +1,8 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
+        $('#formCadastro #CPF').val(obj.CPF);
         $('#formCadastro #Email').val(obj.Email);
         $('#formCadastro #Sobrenome').val(obj.Sobrenome);
         $('#formCadastro #Nacionalidade').val(obj.Nacionalidade);
@@ -14,13 +14,14 @@ $(document).ready(function () {
 
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
-        
+
         $.ajax({
             url: urlPost,
             method: "POST",
             data: {
                 "NOME": $(this).find("#Nome").val(),
                 "CEP": $(this).find("#CEP").val(),
+                "CPF": $(this).find("#CPF").val(),
                 "Email": $(this).find("#Email").val(),
                 "Sobrenome": $(this).find("#Sobrenome").val(),
                 "Nacionalidade": $(this).find("#Nacionalidade").val(),
@@ -30,21 +31,21 @@ $(document).ready(function () {
                 "Telefone": $(this).find("#Telefone").val()
             },
             error:
-            function (r) {
-                if (r.status == 400)
-                    ModalDialog("Ocorreu um erro", r.responseJSON);
-                else if (r.status == 500)
-                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
-            },
+                function (r) {
+                    if (r.status == 400)
+                        ModalDialog("Ocorreu um erro", r.responseJSON);
+                    else if (r.status == 500)
+                        ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+                },
             success:
-            function (r) {
-                ModalDialog("Sucesso!", r)
-                $("#formCadastro")[0].reset();                                
-                window.location.href = urlRetorno;
-            }
+                function (r) {
+                    ModalDialog("Sucesso!", r)
+                    $("#formCadastro")[0].reset();
+                    window.location.href = urlRetorno;
+                }
         });
     })
-    
+
 })
 
 function ModalDialog(titulo, texto) {
