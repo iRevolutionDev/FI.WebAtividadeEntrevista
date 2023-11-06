@@ -32,10 +32,15 @@
             },
             error:
                 function (r) {
-                    if (r.status == 400)
-                        ModalDialog("Ocorreu um erro", r.responseJSON);
-                    else if (r.status == 500)
-                        ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+                    switch (r.status) {
+                        case 400:
+                            ModalDialog("Ocorreu um erro", r.responseJSON);
+                            break;
+                        case 500:
+                        default:
+                            ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+                            break;
+                    }
                 },
             success:
                 function (r) {
