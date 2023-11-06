@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FI.AtividadeEntrevista.Utils.Attributes;
 
 namespace WebAtividadeEntrevista.Models
 {
@@ -32,6 +33,7 @@ namespace WebAtividadeEntrevista.Models
         /// </summary>
         [Required]
         [MaxLength(14)]
+        [ValidCpf]
         public string CPF { get; set; } // int64
 
         /// <summary>
