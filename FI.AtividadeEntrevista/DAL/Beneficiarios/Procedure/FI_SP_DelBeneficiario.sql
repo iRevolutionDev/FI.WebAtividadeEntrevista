@@ -1,0 +1,10 @@
+﻿CREATE
+PROC
+FI_SP_DeleteBeneficiario
+    @IdCliente INT
+AS
+BEGIN
+DELETE
+FROM BENEFICIARIOS
+WHERE IdCliente = @IdCliente
+END

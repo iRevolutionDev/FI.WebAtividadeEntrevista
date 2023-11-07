@@ -1,63 +1,70 @@
-﻿namespace FI.AtividadeEntrevista.DML
+﻿using System.Collections.Generic;
+
+namespace FI.AtividadeEntrevista.DML
 {
     /// <summary>
-    /// Classe de cliente que representa o registo na tabela Cliente do Banco de Dados
+    ///     Classe de cliente que representa o registo na tabela Cliente do Banco de Dados
     /// </summary>
     public class Cliente
     {
         /// <summary>
-        /// Id
+        ///     Id
         /// </summary>
         public long Id { get; set; }
-        
+
         /// <summary>
-        /// CEP
+        ///     CEP
         /// </summary>
         public string CEP { get; set; }
 
         /// <summary>
-        /// Cidade
+        ///     Cidade
         /// </summary>
         public string Cidade { get; set; }
 
         /// <summary>
-        /// E-mail
+        ///     E-mail
         /// </summary>
         public string Email { get; set; }
-        
+
         /// <summary>
-        /// CPF
+        ///     CPF
         /// </summary>
         public long CPF { get; set; }
 
         /// <summary>
-        /// Estado
+        ///     Estado
         /// </summary>
         public string Estado { get; set; }
 
         /// <summary>
-        /// Logradouro
+        ///     Logradouro
         /// </summary>
         public string Logradouro { get; set; }
 
         /// <summary>
-        /// Nacionalidade
+        ///     Nacionalidade
         /// </summary>
         public string Nacionalidade { get; set; }
 
         /// <summary>
-        /// Nome
+        ///     Nome
         /// </summary>
         public string Nome { get; set; }
 
         /// <summary>
-        /// Sobrenome
+        ///     Sobrenome
         /// </summary>
         public string Sobrenome { get; set; }
 
         /// <summary>
-        /// Telefone
+        ///     Telefone
         /// </summary>
-        public string Telefone { get; set; }        
-    }    
+        public string Telefone { get; set; }
+
+        /// <summary>
+        ///     Lista de beneficiários
+        /// </summary>
+        public List<Beneficiario> Beneficiarios { get; set; }
+    }
 }

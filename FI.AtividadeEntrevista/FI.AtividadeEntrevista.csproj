@@ -62,9 +62,12 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="BLL\BoBeneficiario.cs"/>
         <Compile Include="BLL\BoCliente.cs"/>
+        <Compile Include="DAL\Beneficiarios\DaoBeneficiario.cs"/>
         <Compile Include="DAL\Clientes\DaoCliente.cs"/>
         <Compile Include="DAL\Padrao\FI.AcessoDados.cs"/>
+        <Compile Include="DML\Beneficiario.cs"/>
         <Compile Include="DML\Cliente.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Utils\Attributes\ValidCpfAttribute.cs"/>
@@ -90,6 +93,11 @@
         </BootstrapperPackage>
     </ItemGroup>
     <ItemGroup>
+        <Content Include="DAL\Beneficiarios\Procedure\FI_SP_AltBeneficiario.sql"/>
+        <Content Include="DAL\Beneficiarios\Procedure\FI_SP_ConsBeneficiario.sql"/>
+        <Content Include="DAL\Beneficiarios\Procedure\FI_SP_DelBeneficiario.sql"/>
+        <Content Include="DAL\Beneficiarios\Procedure\FI_SP_IncBeneficiario.sql"/>
+        <Content Include="DAL\Beneficiarios\Procedure\FI_SP_VerifyExistenceBenefic.sql"/>
         <Content Include="DAL\Clientes\Procedures\FI_SP_VerifyExistence.sql"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>

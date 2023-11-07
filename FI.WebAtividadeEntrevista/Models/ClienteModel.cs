@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FI.AtividadeEntrevista.Utils.Attributes;
 
 namespace WebAtividadeEntrevista.Models
@@ -71,5 +72,7 @@ namespace WebAtividadeEntrevista.Models
         ///     Telefone
         /// </summary>
         public string Telefone { get; set; }
+
+        public List<BeneficiarioModel> Beneficiarios { get; set; }
     }
 }
