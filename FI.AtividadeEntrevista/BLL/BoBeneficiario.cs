@@ -39,6 +39,17 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
+        ///     Consulta o beneficiario pelo id
+        /// </summary>
+        /// <param name="id">id do beneficiario</param>
+        /// <returns></returns>
+        public Beneficiario Consultar(long id)
+        {
+            var cli = new DaoBeneficiario();
+            return cli.Consultar(id);
+        }
+
+        /// <summary>
         ///     Lista os beneficiarios
         /// </summary>
         public List<Beneficiario> Listar(long idCliente)

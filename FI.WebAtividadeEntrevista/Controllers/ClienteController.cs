@@ -56,7 +56,7 @@ namespace WebAtividadeEntrevista.Controllers
                 Nome = model.Nome,
                 Sobrenome = model.Sobrenome,
                 Telefone = model.Telefone,
-                Beneficiarios = model.Beneficiarios.Select(beneficiario => new Beneficiario
+                Beneficiarios = model.Beneficiarios?.Select(beneficiario => new Beneficiario
                 {
                     IdCliente = model.Id,
                     Nome = beneficiario.Nome,
@@ -66,7 +66,7 @@ namespace WebAtividadeEntrevista.Controllers
 
             try
             {
-                model.Beneficiarios.ForEach(beneficiario =>
+                model.Beneficiarios?.ForEach(beneficiario =>
                 {
                     if (boBeneficiario.VerificarExistencia(beneficiario.CPF) ||
                         bo.VerificarExistencia(beneficiario.CPF))
@@ -109,8 +109,13 @@ namespace WebAtividadeEntrevista.Controllers
 
             if (bo.VerificarExistencia(model.CPF) || boBeneficiario.VerificarExistencia(model.CPF))
             {
-                Response.StatusCode = 400;
-                return Json("CPF já cadastrado");
+                var cliente = bo.Consultar(model.Id);
+
+                if (cliente.CPF != CpfConverter.ToLong(model.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado");
+                }
             }
 
             try

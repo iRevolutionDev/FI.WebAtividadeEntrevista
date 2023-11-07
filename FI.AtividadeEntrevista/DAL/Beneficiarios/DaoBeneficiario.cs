@@ -59,7 +59,20 @@ namespace FI.AtividadeEntrevista.DAL.Beneficiarios
             return beneficiarios;
         }
 
-        public static List<Beneficiario> Converter(DataSet ds)
+        internal Beneficiario Consultar(long id)
+        {
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("IdCliente", id)
+            };
+
+            var ds = Consultar("FI_SP_ConsBeneficiario", parametros);
+            var beneficiarios = Converter(ds);
+
+            return beneficiarios.FirstOrDefault();
+        }
+
+        private static List<Beneficiario> Converter(DataSet ds)
         {
             return (from DataRow row in ds.Tables[0].Rows
                 select new Beneficiario
@@ -75,7 +88,7 @@ namespace FI.AtividadeEntrevista.DAL.Beneficiarios
         {
             var parametros = new List<SqlParameter>
             {
-                new SqlParameter("CPF", cpf)
+                new SqlParameter("CPF", CpfConverter.ToLong(cpf))
             };
 
             var ds = Consultar("FI_SP_VerifyExistenceBenefic", parametros);

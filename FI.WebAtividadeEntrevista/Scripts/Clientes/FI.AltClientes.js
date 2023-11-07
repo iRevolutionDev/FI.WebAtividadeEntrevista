@@ -160,7 +160,7 @@
             removeButton.addEventListener('click', () => {
                 const id = rowElement.dataset.id;
 
-                setBeneficiaries(beneficiaries().filter(b => b.Id !== id));
+                setBeneficiaries(beneficiaries().filter(b => b.Id === id));
 
                 rowElement.parentNode.removeChild(rowElement);
             });
