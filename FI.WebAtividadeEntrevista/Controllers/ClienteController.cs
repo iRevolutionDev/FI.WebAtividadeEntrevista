@@ -38,7 +38,7 @@ namespace WebAtividadeEntrevista.Controllers
                 return Json(string.Join(Environment.NewLine, erros));
             }
 
-            if (bo.VerificarExistencia(model.CPF))
+            if (bo.VerificarExistencia(model.CPF) || boBeneficiario.VerificarExistencia(model.CPF))
             {
                 Response.StatusCode = 400;
                 return Json("CPF já cadastrado");
@@ -107,6 +107,12 @@ namespace WebAtividadeEntrevista.Controllers
                 return Json(string.Join(Environment.NewLine, erros));
             }
 
+            if (bo.VerificarExistencia(model.CPF) || boBeneficiario.VerificarExistencia(model.CPF))
+            {
+                Response.StatusCode = 400;
+                return Json("CPF já cadastrado");
+            }
+
             try
             {
                 var beneficiarios = boBeneficiario.Listar(model.Id) ?? new List<Beneficiario>();
@@ -121,6 +127,13 @@ namespace WebAtividadeEntrevista.Controllers
 
                 model.Beneficiarios?.ForEach(beneficiario =>
                 {
+                    if (boBeneficiario.VerificarExistencia(beneficiario.CPF) ||
+                        bo.VerificarExistencia(beneficiario.CPF))
+                    {
+                        Response.StatusCode = 400;
+                        throw new Exception("CPF já cadastrado");
+                    }
+
                     if (beneficiario.Id == 0)
                         boBeneficiario.Incluir(new Beneficiario
                         {
