@@ -135,8 +135,13 @@ namespace WebAtividadeEntrevista.Controllers
                     if (boBeneficiario.VerificarExistencia(beneficiario.CPF) ||
                         bo.VerificarExistencia(beneficiario.CPF))
                     {
-                        Response.StatusCode = 400;
-                        throw new Exception("CPF já cadastrado");
+                        var beneficiarioExistente = boBeneficiario.Consultar(beneficiario.Id);
+                        
+                        if (beneficiarioExistente.CPF != CpfConverter.ToLong(beneficiario.CPF))
+                        {
+                            Response.StatusCode = 400;
+                            throw new Exception("CPF já cadastrado");
+                        }
                     }
 
                     if (beneficiario.Id == 0)
