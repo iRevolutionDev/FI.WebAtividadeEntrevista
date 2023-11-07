@@ -1,6 +1,6 @@
-﻿var beneficiaries = [];
+﻿$(document).ready(function () {
+    const [beneficiaries, setBeneficiaries] = useState([]);
 
-$(document).ready(function () {
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
@@ -12,13 +12,11 @@ $(document).ready(function () {
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
-        beneficiaries = obj.Beneficiarios;
+        setBeneficiaries(obj.Beneficiarios);
     }
 
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
-
-        console.log(beneficiaries);
 
         $.ajax({
             url: urlPost,
@@ -34,7 +32,7 @@ $(document).ready(function () {
                 Cidade: $('#formCadastro #Cidade').val(),
                 Logradouro: $('#formCadastro #Logradouro').val(),
                 Telefone: $('#formCadastro #Telefone').val(),
-                Beneficiarios: beneficiaries
+                Beneficiarios: beneficiaries()
             },
             error:
                 function (r) {
@@ -68,13 +66,13 @@ $(document).ready(function () {
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="CPFBeneficiario">CPF</label>
-                            <input type="text" class="form-control" id="CPFBeneficiario" placeholder="CPF">
+                            <input type="text" class="form-control" id="cpf-input" placeholder="CPF">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="NomeBeneficiario">Nome</label>
-                            <input type="text" class="form-control" id="NomeBeneficiario" placeholder="Nome">
+                            <input type="text" class="form-control" id="name-input" placeholder="Nome">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -99,86 +97,102 @@ $(document).ready(function () {
             </form>
         `);
 
-        const beneficiariesElementsList = $('#beneficiaries');
-        const addBeneficiary = $('#addBeneficiary')[0];
-        const form = $('#formBeneficiario')[0];
+        const beneficiariesElementsList = document.getElementById('beneficiaries');
+        const addBeneficiary = document.getElementById('addBeneficiary');
+        const form = document.getElementById('formBeneficiario');
+
+        const cpfInput = document.getElementById('cpf-input');
+        const nameInput = document.getElementById('name-input');
 
         let id = 0;
 
         const addRow = (cpf, nome, id) => {
-            const row = `
-                <tr data-cpf="${cpf}" data-nome="${nome}" data-id="${id}">
-                    <td>${cpf}</td>
-                    <td>${nome}</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" onclick="editBeneficiary(this)">Editar</button>
-                        <button class="btn btn-danger btn-sm" onclick="removeBeneficiary(this)">Remover</button>
-                    </td>
-                    <input type="hidden" value="${nome}" />
-                    <input type="hidden" value="${cpf}" />
-                </tr>
-            `;
+            if (!Number.isInteger(id)) throw new Error("Id must be an integer.");
 
-            beneficiariesElementsList.append(row);
+            const rowElement = document.createElement('tr');
+            rowElement.setAttribute('data-cpf', cpf);
+            rowElement.setAttribute('data-nome', nome);
+            rowElement.setAttribute('data-id', id || ++id);
+
+            const cpfColumn = document.createElement('td');
+            cpfColumn.innerText = cpf;
+            rowElement.append(cpfColumn);
+
+            const nomeColumn = document.createElement('td');
+            nomeColumn.innerText = nome;
+            rowElement.append(nomeColumn);
+
+            const actionsColumn = document.createElement('td');
+            rowElement.append(actionsColumn);
+
+            const editButton = document.createElement('button');
+            editButton.innerText = 'Editar';
+            editButton.classList.add('btn', 'btn-primary', 'btn-sm', 'mr-1');
+            actionsColumn.append(editButton);
+
+            const removeButton = document.createElement('button');
+            removeButton.innerText = 'Remover';
+            removeButton.classList.add('btn', 'btn-danger', 'btn-sm');
+            actionsColumn.append(removeButton);
+
+            editButton.addEventListener('click', () => {
+                const id = rowElement.getAttribute('data-id');
+                const cpf = rowElement.getAttribute('data-cpf');
+                const nome = rowElement.getAttribute('data-nome');
+
+                setBeneficiaries(beneficiaries().filter(b => b.Id === id));
+
+                cpfInput.value = cpf;
+                nameInput.value = nome;
+
+                rowElement.parentNode.removeChild(rowElement);
+            });
+
+            removeButton.addEventListener('click', () => {
+                const id = rowElement.dataset.id;
+
+                setBeneficiaries(beneficiaries().filter(b => b.Id !== id));
+
+                rowElement.parentNode.removeChild(rowElement);
+            });
+
+            return rowElement;
         }
 
-        beneficiaries.forEach(b => {
-            addRow(b.CPF, b.Nome, b.Id);
-        });
+        const populateTable = (target, data) => {
+            if (!Array.isArray(data)) {
+                throw new Error("Data must be an array.");
+            }
+
+            target.append(...data.map(b => addRow(b.CPF, b.Nome, b.Id)));
+        }
+
+        populateTable(beneficiariesElementsList, beneficiaries());
 
         form.onsubmit = (e) => {
             e.preventDefault();
         }
 
-        addBeneficiary.onclick = (e) => {
+        console.log(beneficiaries());
+
+        addBeneficiary.addEventListener("click", () => {
             e.stopPropagation();
 
-            const cpf = $('#CPFBeneficiario')[0].value;
-            const nome = $('#NomeBeneficiario')[0].value;
-
-            if (cpf === "" || nome === "") {
+            if (cpfInput.value === "" || nameInput.value === "") {
                 ModalDialog("Erro", "Preencha todos os campos.");
                 return;
             }
 
-            if (beneficiaries.find(b => b.CPF === cpf)) {
+            if (beneficiaries().find(b => b.CPF === cpfInput.value)) {
                 ModalDialog("Erro", "CPF já cadastrado.");
                 return;
             }
 
-            beneficiaries.push({Id: id, CPF: cpf, Nome: nome});
-            addRow(cpf, nome);
+            setBeneficiaries([...beneficiaries(), {Id: id, CPF: cpfInput.value, Nome: nameInput.value}]);
+
+            beneficiariesElementsList.append(addRow(cpfInput.value, nameInput.value, id));
 
             form.reset();
-        }
+        });
     }
 });
-
-function removeBeneficiary(element) {
-    const root = $(element).closest('tr');
-
-    const id = root.data('id');
-
-    beneficiaries = beneficiaries.filter(b => b.Id !== id);
-    console.log(beneficiaries);
-    root.remove();
-}
-
-
-function editBeneficiary(element) {
-    const root = $(element).closest('tr');
-
-    const id = root.data('id');
-    const cpf = root.data('cpf');
-    const nome = root.data('nome');
-
-    const CPFBeneficiario = $('#CPFBeneficiario')[0];
-    const NomeBeneficiario = $('#NomeBeneficiario')[0];
-
-    CPFBeneficiario.value = cpf;
-    NomeBeneficiario.value = nome;
-
-    beneficiaries = beneficiaries.filter(b => b.Id !== id);
-
-    root.remove();
-}
