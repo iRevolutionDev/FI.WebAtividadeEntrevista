@@ -19,7 +19,12 @@
         </div>
      `;
     $('body').append(dialog);
-    $(`#${random}`).modal('show');
+    const modal = $(`#${random}`);
+    modal.modal('show');
+
+    modal.on('hidden.bs.modal', function (e) {
+        $(this).remove();
+    });
 }
 
 function ModalDialog(titulo, texto) {
