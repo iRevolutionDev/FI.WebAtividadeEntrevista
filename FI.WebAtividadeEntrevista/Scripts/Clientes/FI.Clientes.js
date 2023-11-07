@@ -50,7 +50,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="CPFBeneficiario">CPF</label>
-                            <input type="text" class="form-control" id="cpf-input" placeholder="CPF">
+                            <input type="text" class="form-control" id="cpf-input" placeholder="CPF" maxlength="14">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -89,6 +89,15 @@
         const nameInput = document.getElementById('name-input');
 
         let id = 0;
+
+        cpfInput.addEventListener('keyup', () => {
+            const cpf = cpfInput.value;
+            cpfInput.value = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        });
+
+        cpfInput.addEventListener('keypress', (e) => {
+            if (isNaN(e.key)) e.preventDefault();
+        });
 
         const addRow = (cpf, nome, id) => {
             if (!Number.isInteger(id)) throw new Error("Id must be an integer.");

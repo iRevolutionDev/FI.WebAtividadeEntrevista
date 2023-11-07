@@ -7,4 +7,8 @@
             cpfInput.val(cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"));
         }
     );
+
+    cpfInput.keypress(function (e) {
+        if (isNaN(e.key)) e.preventDefault();
+    });
 });
