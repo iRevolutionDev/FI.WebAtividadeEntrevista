@@ -30,3 +30,17 @@
 function ModalDialog(titulo, texto) {
     ModalDialogWithContent(titulo, `<p>${texto}</p>`);
 }
+
+function useState(initialState) {
+    let state = initialState;
+
+    const setState = (newState) => {
+        state = newState;
+    }
+
+    const getState = () => {
+        return state;
+    }
+
+    return [getState, setState];
+}
