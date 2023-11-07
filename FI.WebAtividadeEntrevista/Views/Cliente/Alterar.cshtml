@@ -5,9 +5,9 @@
 
 @section scripts{
     <script>
-        var urlPost = '@Url.Action("Alterar", "Cliente", new { area = "" })';
-        var obj = @Html.Raw(Json.Encode(Model));
-        var urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
+        const urlPost = '@Url.Action("Alterar", "Cliente", new { area = "" })';
+        const obj = @Html.Raw(Json.Encode(Model));
+        const urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
 </script>
     @Scripts.Render("~/bundles/altClientes")
     @Scripts.Render("~/bundles/formFormatter")
